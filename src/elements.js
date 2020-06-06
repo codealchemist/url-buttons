@@ -49,6 +49,11 @@ export const StyledButton = styled.div`
   background: ${theme.background300};
   color: ${theme.highlight100};
 
+  path,
+  polyline {
+    stroke: ${theme.highlight100};
+  }
+
   :hover {
     background: ${theme.background200};
     border: 1px solid ${theme.highlight100};
@@ -169,6 +174,14 @@ export const ModalTitle = styled.div`
   align-items: center;
   justify-content: flex-start;
   padding-left: 20px;
+`
+
+export const ModalContent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: wrap;
 `
 
 export const ModalButtonsContainer = styled.div`

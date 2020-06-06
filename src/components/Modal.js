@@ -3,7 +3,8 @@ import {
   ModalContainer,
   ModalTitle,
   ModalButtonsContainer,
-  ModalButton
+  ModalButton,
+  ModalContent
 } from 'elements'
 
 const Modal = ({
@@ -30,8 +31,10 @@ const Modal = ({
       direction={direction}
       isBlured={isBlured}
     >
-      {title && <ModalTitle>{title}</ModalTitle>}
-      {children}
+      <ModalContent>
+        {title && <ModalTitle>{title}</ModalTitle>}
+        {children}
+      </ModalContent>
 
       <ModalButtonsContainer>
         {!hideOk && (
