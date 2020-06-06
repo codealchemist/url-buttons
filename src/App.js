@@ -26,6 +26,7 @@ const App = () => {
   const [isNewButtonModalOpen, setIsNewButtonModalOpen] = useState(false)
   const [isEditMode, setIsEditMode] = useState(false)
   const [selectedButton, setSelectedButton] = useState()
+  const [selectedIndex, setSelectedIndex] = useState()
 
   const openNewButtonModal = () => {
     setIsNewButtonModalOpen(true)
@@ -48,7 +49,7 @@ const App = () => {
     console.log('BUTTON UPDATED', button)
 
     const updatedButtons = [...state.buttons]
-    updatedButtons[selectedButton.index] = button
+    updatedButtons[selectedIndex] = button
     saveState({
       ...state,
       buttons: updatedButtons
@@ -79,6 +80,7 @@ const App = () => {
   const onButtonAction = async (button, index) => {
     if (isEditMode) {
       setSelectedButton(button)
+      setSelectedIndex(index)
       openNewButtonModal()
       return
     }
