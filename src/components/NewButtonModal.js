@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import Modal from 'components/Modal'
-import { Pad, TextButton } from 'elements'
+import { Pad, TextButton, FocusedInput } from 'elements'
 import Button from 'components/Button'
 import IconSelector from 'components/IconSelector'
 import Checkbox from 'components/Checkbox'
 import icons from 'components/Icons'
+import { noEvent } from 'util/index'
 
 const NewButtonModal = ({
   isOpen,
@@ -26,6 +27,7 @@ const NewButtonModal = ({
     displayResponse: false,
     displayRequestErrors: false
   })
+  const [focusedInput, setFocusedInput] = useState()
 
   const onChange = ({ target: { value, name } }) => {
     setState({
@@ -72,6 +74,29 @@ const NewButtonModal = ({
     })
   }
 
+  const setInputFocus = ({ target: { name, value } }) => {
+    console.log('FOCUS', name)
+    setFocusedInput(name)
+    setTimeout(() => {
+      document.querySelector('#focused-input').focus()
+    }, 50)
+  }
+
+  const resetInputFocus = () => {
+    console.log('RESET FOCUS')
+    setFocusedInput()
+  }
+
+  const onKey = (event) => {
+    let { key } = event
+    console.log('KEY', key)
+    key = key.toLowerCase()
+    if (key !== 'enter' && key !== 'tab' && key !== 'escape') return
+    noEvent(event)
+    resetInputFocus()
+    console.log('/// RESET FOCUS')
+  }
+
   useEffect(() => {
     console.log('EDIT BUTTON', button)
     setState({
@@ -90,89 +115,110 @@ const NewButtonModal = ({
   }, [isEditMode])
 
   return (
-    <Modal
-      title={title}
-      onOk={onOk}
-      onCancel={onCancel}
-      isOpen={isOpen}
-      isValid={state.isValid}
-    >
-      <Pad size="10">
-        <Button icon={icons[state.icon]} onClick={openIconSelector} />
-      </Pad>
-
-      <Pad>
-        <input
-          placeholder="Button name"
-          name="name"
-          id="name"
-          onChange={onChange}
-          value={state.name}
-        />
-      </Pad>
-
-      <Pad>
-        <input
-          placeholder="URL"
-          name="url"
-          id="url"
-          onChange={onChange}
-          value={state.url}
-        />
-      </Pad>
-
-      <Pad>
-        <Checkbox
-          label="Open in new window"
-          isChecked={state.openInNewWindow}
-          onChange={(checked) =>
-            onCheckboxChange({ name: 'openInNewWindow', checked })
-          }
-        />
-      </Pad>
-
-      <Pad>
-        <Checkbox
-          label="Close opened window"
-          isChecked={state.closeOpenedWindow}
-          onChange={(checked) =>
-            onCheckboxChange({ name: 'closeOpenedWindow', checked })
-          }
-        />
-      </Pad>
-
-      <Pad>
-        <Checkbox
-          label="Display response"
-          isChecked={state.displayResponse}
-          onChange={(checked) =>
-            onCheckboxChange({ name: 'displayResponse', checked })
-          }
-        />
-      </Pad>
-
-      <Pad>
-        <Checkbox
-          label="Display request errors"
-          isChecked={state.displayRequestErrors}
-          onChange={(checked) =>
-            onCheckboxChange({ name: 'displayRequestErrors', checked })
-          }
-        />
-      </Pad>
-
-      {isEditMode && (
-        <Pad size="40">
-          <TextButton onClick={onDeleteClick}>Delete</TextButton>
+    <>
+      <FocusedInput isFocused={!!focusedInput} onClick={resetInputFocus}>
+        <Pad>
+          <input
+            id="focused-input"
+            placeholder="Button name"
+            name={focusedInput}
+            onChange={onChange}
+            onBlur={resetInputFocus}
+            value={state[focusedInput]}
+            onClick={noEvent}
+            onKeyDown={onKey}
+            autoFocus
+          />
         </Pad>
-      )}
+      </FocusedInput>
 
-      <IconSelector
-        isOpen={isIconSelectorOpen}
-        onSelect={onIconSelected}
-        onCancel={closeIconSelector}
-      />
-    </Modal>
+      <Modal
+        title={title}
+        onOk={onOk}
+        onCancel={onCancel}
+        isOpen={isOpen}
+        isValid={state.isValid}
+        isBlured={!!focusedInput}
+      >
+        <Pad size="10">
+          <Button icon={icons[state.icon]} onClick={openIconSelector} />
+        </Pad>
+
+        <Pad>
+          <input
+            placeholder="Button name"
+            name="name"
+            id="name"
+            onChange={onChange}
+            onFocus={setInputFocus}
+            value={state.name}
+          />
+        </Pad>
+
+        <Pad>
+          <input
+            placeholder="URL"
+            name="url"
+            id="url"
+            onChange={onChange}
+            onFocus={setInputFocus}
+            value={state.url}
+          />
+        </Pad>
+
+        <Pad>
+          <Checkbox
+            label="Open in new window"
+            isChecked={state.openInNewWindow}
+            onChange={(checked) =>
+              onCheckboxChange({ name: 'openInNewWindow', checked })
+            }
+          />
+        </Pad>
+
+        <Pad>
+          <Checkbox
+            label="Close opened window"
+            isChecked={state.closeOpenedWindow}
+            onChange={(checked) =>
+              onCheckboxChange({ name: 'closeOpenedWindow', checked })
+            }
+          />
+        </Pad>
+
+        <Pad>
+          <Checkbox
+            label="Display response"
+            isChecked={state.displayResponse}
+            onChange={(checked) =>
+              onCheckboxChange({ name: 'displayResponse', checked })
+            }
+          />
+        </Pad>
+
+        <Pad>
+          <Checkbox
+            label="Display request errors"
+            isChecked={state.displayRequestErrors}
+            onChange={(checked) =>
+              onCheckboxChange({ name: 'displayRequestErrors', checked })
+            }
+          />
+        </Pad>
+
+        {isEditMode && (
+          <Pad size="40">
+            <TextButton onClick={onDeleteClick}>Delete</TextButton>
+          </Pad>
+        )}
+
+        <IconSelector
+          isOpen={isIconSelectorOpen}
+          onSelect={onIconSelected}
+          onCancel={closeIconSelector}
+        />
+      </Modal>
+    </>
   )
 }
 

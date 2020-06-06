@@ -147,11 +147,12 @@ export const ModalContainer = styled.div`
   transition: all 0.5s ease;
   z-index: 20;
 
-  ${({ isOpen, z, direction }) => {
+  ${({ isOpen, z, direction, isBlured }) => {
     let output = ''
     if (isOpen) output += `left: 0;`
     if (z) output += `z-index: ${z};`
     if (direction) output += `flex-direction: ${direction};`
+    if (isBlured) output += `filter: blur(3px);`
     return output
   }}
 `
@@ -298,4 +299,29 @@ export const CheckboxContainer = styled.div`
     width: 5vw;
     height: 5vw;
   }
+`
+
+export const FocusedInput = styled.div`
+  opacity: 0;
+  visibility: hidden;
+
+  ${({ isFocused }) => {
+    let output = ''
+    if (isFocused)
+      output += `
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: black;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.7;
+        visibility: visible;
+        z-index: 110;
+    `
+    return output
+  }}
 `

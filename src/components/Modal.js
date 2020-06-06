@@ -17,13 +17,19 @@ const Modal = ({
   hideOk,
   hideCancel,
   z,
-  direction
+  direction,
+  isBlured
 }) => {
   okButtonText = okButtonText || 'OK'
   cancelButtonText = cancelButtonText || 'Cancel'
 
   return (
-    <ModalContainer isOpen={isOpen} z={z} direction={direction}>
+    <ModalContainer
+      isOpen={isOpen}
+      z={z}
+      direction={direction}
+      isBlured={isBlured}
+    >
       {title && <ModalTitle>{title}</ModalTitle>}
       {children}
 
