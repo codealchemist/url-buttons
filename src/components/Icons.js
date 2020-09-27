@@ -7,7 +7,9 @@ import {
   FaVolumeUp,
   FaVolumeMute,
   FaVolumeDown,
-  FaBell
+  FaBell,
+  FaBomb,
+  FaGamepad
 } from 'react-icons/fa'
 import { BsToggleOn, BsToggleOff, BsFillCircleFill } from 'react-icons/bs'
 import { FiVideo, FiVideoOff, FiMonitor } from 'react-icons/fi'
@@ -16,6 +18,7 @@ import { GrPowerReset, GrFormNext, GrFormPrevious } from 'react-icons/gr'
 import { MdCloudDownload, MdRingVolume } from 'react-icons/md'
 import { RiFullscreenLine, RiFullscreenExitLine } from 'react-icons/ri'
 import { AiFillAudio, AiOutlineAudio } from 'react-icons/ai'
+import { BiGame } from 'react-icons/bi'
 
 export const iconsOn = {
   FaLightbulb: <FaLightbulb />,
@@ -39,7 +42,10 @@ export const iconsOn = {
   GiPauseButton: <GiPauseButton />,
   RiFullscreenLine: <RiFullscreenLine />,
   RiFullscreenExitLine: <RiFullscreenExitLine />,
-  AiFillAudio: <AiFillAudio />
+  AiFillAudio: <AiFillAudio />,
+  FaBomb: <FaBomb />,
+  BiGame: <BiGame />,
+  FaGamepad: <FaGamepad />
 }
 
 export const iconsOff = {
@@ -64,7 +70,10 @@ export const iconsOff = {
   GiPauseButton: <GiPauseButton />,
   RiFullscreenLine: <RiFullscreenLine />,
   RiFullscreenExitLine: <RiFullscreenExitLine />,
-  AiFillAudio: <AiOutlineAudio />
+  AiFillAudio: <AiOutlineAudio />,
+  FaBomb: <FaBomb />,
+  BiGame: <BiGame />,
+  FaGamepad: <FaGamepad />
 }
 
 export default iconsOn
