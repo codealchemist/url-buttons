@@ -339,3 +339,27 @@ export const FocusedInput = styled.div`
     return output
   }}
 `
+
+export const Iframe = styled.iframe`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 200;
+  border: 0;
+`
+
+export const TopRight = styled.div`
+  position: fixed;
+  top: 5px;
+  right: 5px;
+  z-index: 210;
+`
+
+export const BottomRight = styled.div`
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
+  z-index: 210;
+`

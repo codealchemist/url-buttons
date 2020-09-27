@@ -10,7 +10,8 @@ import {
   Pad,
   ButtonName,
   FixedButtonsContainer,
-  FixedButton
+  Iframe,
+  BottomRight
 } from 'elements'
 import NewButtonModal from 'components/NewButtonModal'
 import Button from 'components/Button'
@@ -27,6 +28,7 @@ const App = () => {
   const [isEditMode, setIsEditMode] = useState(false)
   const [selectedButton, setSelectedButton] = useState()
   const [selectedIndex, setSelectedIndex] = useState()
+  const [iframeSrc, setIframeSrc] = useState()
 
   const openNewButtonModal = () => {
     setIsNewButtonModalOpen(true)
@@ -85,29 +87,45 @@ const App = () => {
       return
     }
 
-    const { name, url, buttonState, openInNewWindow, displayResponse } = button
+    const {
+      name,
+      url,
+      buttonState,
+      openInNewWindow,
+      closeOpenedWindow,
+      openInIframe,
+      displayResponse
+    } = button
     setButtonLoading(name)
     // TODO: add checkbox to button form to support not showing errors.
 
     try {
       if (openInNewWindow) {
-        const win = window.open(url, name, 'noopener,noreferrer')
+        const win = window.open(url, name)
+        if (!closeOpenedWindow) return
+        setTimeout(() => {
+          win.close()
+        }, 3000)
       } else {
-        const result = await fetch(url, { mode: 'no-cors' })
-        const data = await result.json()
-        console.log('RESPONSE', data)
+        if (openInIframe) {
+          setIframeSrc(url)
+        } else {
+          const result = await fetch(url, { mode: 'no-cors' })
+          const data = await result.json()
+          console.log('RESPONSE', data)
 
-        if (displayResponse) {
-          // TODO: Better response display.
-          setSystemMessage({
-            text: (
-              <>
-                Button action response for &nbsp;
-                <b>"{name}"</b>:&nbsp;<code>{JSON.stringify(data)}</code>
-              </>
-            ),
-            type: 'success'
-          })
+          if (displayResponse) {
+            // TODO: Better response display.
+            setSystemMessage({
+              text: (
+                <>
+                  Button action response for &nbsp;
+                  <b>"{name}"</b>:&nbsp;<code>{JSON.stringify(data)}</code>
+                </>
+              ),
+              type: 'success'
+            })
+          }
         }
       }
     } catch (error) {
@@ -160,6 +178,10 @@ const App = () => {
     setIsEditMode(false)
   }
 
+  const closeIframe = () => {
+    setIframeSrc()
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
@@ -179,6 +201,15 @@ const App = () => {
               </Button>
             </Pad>
           ))}
+
+          {iframeSrc && (
+            <>
+              <BottomRight>
+                <Button secondary icon={<GiCancel />} onClick={closeIframe} />
+              </BottomRight>
+              <Iframe src={iframeSrc} frameborder="0" />
+            </>
+          )}
 
           <NewButtonModal
             isOpen={isNewButtonModalOpen}

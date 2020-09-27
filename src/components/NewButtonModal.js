@@ -188,6 +188,16 @@ const NewButtonModal = ({
 
         <Pad>
           <Checkbox
+            label="Open in iframe"
+            isChecked={state.openInIframe}
+            onChange={(checked) =>
+              onCheckboxChange({ name: 'openInIframe', checked })
+            }
+          />
+        </Pad>
+
+        <Pad>
+          <Checkbox
             label="Display response"
             isChecked={state.displayResponse}
             onChange={(checked) =>
