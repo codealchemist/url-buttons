@@ -295,6 +295,7 @@ export const TextButton = styled.div`
   border-radius: 5px;
   background: ${theme.highlightAlt400};
   color: ${theme.foreground50};
+  cursor: pointer;
 `
 
 export const CheckboxContainer = styled.div`

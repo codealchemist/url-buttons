@@ -143,7 +143,7 @@ const App = () => {
   const onDelete = (button) => {
     console.log('DELETE button', button)
     const updatedButtons = state.buttons.filter(
-      (currentButton, index) => selectedButton.index !== index
+      (currentButton, index) => selectedIndex !== index
     )
     saveState({
       ...state,
